@@ -145,6 +145,7 @@ public class MyUsernamePasswordAuthProvider
 	@Override
 	protected LoginResult loginUser(
 			final MyLoginUsernamePasswordAuthUser authUser) {
+		System.out.println(authUser);
 		final User u = User.findByUsernamePasswordIdentity(authUser);
 		if (u == null) {
 			return LoginResult.NOT_FOUND;

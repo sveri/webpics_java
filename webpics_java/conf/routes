@@ -5,6 +5,8 @@
 # Home page
 GET     /                           controllers.Application.index()
 
+GET		/albums/:album				controllers.Album.albums(album: String)
+
 POST	/upload/files/				controllers.Uploader.files(qqfile)
 
 GET     /restricted                 controllers.Application.restricted
