@@ -1,0 +1,43 @@
+@(title: String)(content: Html)
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>WebPics - @title</title>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/fileuploader.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("javascripts/fileuploader.min.js")" type="text/javascript"></script>
+    </head>
+    <body>
+    	<div id="file-uploader" >
+    	</div>
+    	
+    	<div>
+    		<button class="btn btn-primary" id="triggerUpload" >Upload Files</button>
+   		</div>
+    	
+    	<script type="text/javascript">
+	    	var uploader = new qq.FileUploader({
+	    	    // pass the dom node (ex. $(selector)[0] for jQuery users)
+	    	    element: document.getElementById('file-uploader'),
+	    	    multiple: true,
+	    	    maxConnections: 3,
+	    	    autoUpload: false,
+	    	    forceMultipart: true,
+	    	    uploadButtonText: "Select Files",
+	    	    // path to server-side upload script
+	    	    action: '/upload/files/',
+	    	    allowedExtensions: ["jpg", "png"]
+	    	});
+	    	
+	    	$('#triggerUpload').click(function() {
+	    		uploader.uploadStoredFiles();
+    		}); 
+    	</script>
+    	
+        @content
+    </body>
+</html>

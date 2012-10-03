@@ -1,0 +1,39 @@
+@(loginForm: Form[_])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@main(Messages("Login"),"login") {
+
+    
+  <div id="login" class="row">
+	
+    <div class="span3">
+    
+	<h1>@Messages("playauthenticate.login.title")</h1>
+      @* Display proprietary login form *@
+    	@helper.form(routes.Application.doLogin) {
+    	
+        @if(loginForm.hasGlobalErrors) { 
+          </p>
+        }
+        
+        @_emailPartial(loginForm)
+          
+        @inputPassword(
+          loginForm("password"),
+          '_showConstraints -> false,
+          '_label -> Messages("playauthenticate.login.password.placeholder")
+        )
+          
+        <input type="submit" value="@Messages("playauthenticate.login.now")" class="btn btn-primary"><br/>
+        <br/>
+        <a href="javascript:void(0);" onclick="window.location.href = jsRoutes.controllers.Signup.forgotPassword($('#email').val() || null).absoluteURL();">@Messages("playauthenticate.login.forgot.password")</a>
+
+    	}
+    </div>
+
+
+  </div>
+
+}
