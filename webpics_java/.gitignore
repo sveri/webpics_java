@@ -1,0 +1,15 @@
+logs
+project/project
+project/target
+target
+tmp
+.history
+dist
+.class
+webpics_java/logs
+webpics_java/project/project
+webpics_java/project/target
+webpics_java/target
+webpics_java/.target
+webpics_java/tmp
+webpics_java/dist
