@@ -15,7 +15,9 @@
     	@helper.form(routes.Application.doLogin) {
     	
         @if(loginForm.hasGlobalErrors) { 
-          </p>
+	        <p class="error">
+    	        <span class="label label-important">@loginForm.globalError.message</span>
+			</p>
         }
         
         @_emailPartial(loginForm)

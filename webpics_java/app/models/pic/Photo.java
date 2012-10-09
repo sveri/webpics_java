@@ -3,6 +3,7 @@ package models.pic;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 @Entity
@@ -11,34 +12,18 @@ public class Photo extends Model {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private Long id;
+    public Long id;
 
-    private String name;
+    @Required
+    public String name;
 
-    private String path;
+    @Required
+    public String path;
 
-    public String getName() {
-	return name;
-    }
+    @Required
+    public Album albumId;
 
-    public void setName(String name) {
-	this.name = name;
-    }
-
-    public String getPath() {
-	return path;
-    }
-
-    public void setPath(String path) {
-	this.path = path;
-    }
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
+    public static Finder<Long, Photo> find = new Finder<Long, Photo>(
+	    Long.class, Photo.class);
 
 }

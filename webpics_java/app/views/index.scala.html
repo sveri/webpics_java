@@ -1,7 +1,10 @@
+@import be.objectify.deadbolt.Deadbolt
 
 @main(Messages("playauthenticate.index.title")) {
 	<div class="hero-unit">
 		<h1>@Messages("pix.index.intro")</h1>
-		<p>@Messages("pix.index.intro_2")</p>
+		@if(Deadbolt.viewRoleHolderNotPresent()) {
+			<p>@Messages("pix.index.intro_2")</p>
+		}
 	</div>
 }

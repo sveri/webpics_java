@@ -1,14 +1,24 @@
-@import helper._
-@import helper.twitterBootstrap._
+@scripts = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/fileuploader.css")" />
+	<script src="@routes.Assets.at("javascripts/fileuploader.min.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/album/uploader.js")" type="text/javascript"></script>
+}
 
-@main(Messages(""),"login") {
-
-    
-	<div id="login" class="row">
-		<h1>@Messages("pix.album.album.upload_pictures")</h1>
-	
-	
-	
+@navleft = {
+	<div class="well sidebar-nav left">
+		<ul class="nav nav-list">
+			<li class="nav-header">@Messages("pix.navigation.albums")</li>
+			<li><a href="album/a1">Album1</a></li>
+		</ul>
 	</div>
+}
 
+@main(Messages("pix.navigation.albums"),"", scripts, navleft) {
+	<div id="file-uploader" ></div>
+    	
+	<div>
+		<button class="btn btn-primary" id="triggerUpload" >Upload Files</button>
+	</div>
+	
+	<input type="hidden" value="1" id="albumId"/>
 }

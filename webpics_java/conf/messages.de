@@ -29,6 +29,7 @@ error.pattern=Muss dem Muster {0} genügen
 pix.navigation.groups=Gruppen
 
 pix.album.album.upload_pictures=Bilder hochladen
+pix.navigation.albums=Alben
 
 ### --- play-authenticate START
 

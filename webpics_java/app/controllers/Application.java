@@ -56,15 +56,15 @@ public class Application extends Controller {
     }
 
     public static Result doLogin() {
-	final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
+    	final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM
 		.bindFromRequest();
-	if (filledForm.hasErrors()) {
-	    // User did not fill everything properly
-	    return badRequest(login.render(filledForm));
-	} else {
-	    // Everything was filled
-	    return UsernamePasswordAuthProvider.handleLogin(ctx());
-	}
+		if (filledForm.hasErrors()) {
+		    // User did not fill everything properly
+		    return badRequest(login.render(filledForm));
+		} else {
+		    // Everything was filled
+		    return UsernamePasswordAuthProvider.handleLogin(ctx());
+		}
     }
 
     public static Result signup() {

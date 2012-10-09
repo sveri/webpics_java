@@ -5,9 +5,10 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-GET		/albums/:album				controllers.Album.albums(album: String)
+GET		/album/:album				controllers.Album.albums(album: String)
+GET		/album						controllers.Album.index()
 
-POST	/upload/files/				controllers.Uploader.files(qqfile)
+POST	/album/upload/files/		controllers.Album.files(albumId: Long, qqfile)
 
 GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
