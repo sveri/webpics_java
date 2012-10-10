@@ -1,19 +1,23 @@
 @scripts = {
-    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/fileuploader.css")" />
-	<script src="@routes.Assets.at("javascripts/fileuploader.min.js")" type="text/javascript"></script>
-	<script src="@routes.Assets.at("javascripts/album/uploader.js")" type="text/javascript"></script>
+    @scriptsPartial()
 }
 
 @navleft = {
-	<div class="well sidebar-nav left">
-		<ul class="nav nav-list">
-			<li class="nav-header">@Messages("pix.navigation.albums")</li>
-			<li><a href="album/a1">Album1</a></li>
-		</ul>
-	</div>
+	@navLeftPartial()
 }
 
 @main(Messages("pix.navigation.albums"),"", scripts, navleft) {
+	<div id="galleria">
+        <img src="photo1.jpg">
+        <img src="photo2.jpg">
+        <img src="photo3.jpg">
+    </div>
+    <script>
+         Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
+         Galleria.run('#galleria');
+    </script>
+
+
 	<div id="file-uploader" ></div>
     	
 	<div>

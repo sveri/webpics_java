@@ -21,6 +21,8 @@ create table photo (
   id                        bigint auto_increment not null,
   name                      varchar(255),
   path                      varchar(255),
+  album_id_id               bigint,
+  constraint uq_photo_path unique (path),
   constraint pk_photo primary key (id))
 ;
 
@@ -84,8 +86,10 @@ create table users_user_permission (
 ;
 alter table linked_account add constraint fk_linked_account_user_1 foreign key (user_id) references users (id) on delete restrict on update restrict;
 create index ix_linked_account_user_1 on linked_account (user_id);
-alter table token_action add constraint fk_token_action_targetUser_2 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
-create index ix_token_action_targetUser_2 on token_action (target_user_id);
+alter table photo add constraint fk_photo_albumId_2 foreign key (album_id_id) references album (id) on delete restrict on update restrict;
+create index ix_photo_albumId_2 on photo (album_id_id);
+alter table token_action add constraint fk_token_action_targetUser_3 foreign key (target_user_id) references users (id) on delete restrict on update restrict;
+create index ix_token_action_targetUser_3 on token_action (target_user_id);
 
 
 

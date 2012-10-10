@@ -1,8 +1,12 @@
+@(albums: List[models.pic.Album])
+
 @navleft = {
 	<div class="well sidebar-nav left">
 		<ul class="nav nav-list">
 			<li class="nav-header">@Messages("pix.navigation.albums")</li>
-			<li><a href="album/a1">Album1</a></li>
+			@for(album <- albums) {
+				<li><a href="@routes.Album.albums(album.id)">@album.name</a></li>
+			}
 		</ul>
 	</div>
 }

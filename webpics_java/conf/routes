@@ -5,7 +5,7 @@
 # Home page
 GET     /                           controllers.Application.index()
 
-GET		/album/:album				controllers.Album.albums(album: String)
+GET		/album/:albumId				controllers.Album.albums(albumId: Long)
 GET		/album						controllers.Album.index()
 
 POST	/album/upload/files/		controllers.Album.files(albumId: Long, qqfile)
