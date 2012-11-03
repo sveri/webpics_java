@@ -22,7 +22,7 @@
             @Messages("playauthenticate.profile.providers_many",providers.size().toString())
         }
         @for(p <- providers) {
-            @_providerIcon(p)
+            
         }
         <br/>
         }
@@ -30,7 +30,7 @@
     
     <br/>
     @currentAuth() { auth =>
-        @Messages("playauthenticate.profile.logged") @_providerIcon(auth.getProvider())<br/>
+        @Messages("playauthenticate.profile.logged") <br/>
         @if(auth.expires() == -1){
             @Messages("playauthenticate.profile.session", auth.getId(), Application.formatTimestamp(auth.expires()))
         } else {

@@ -15,4 +15,8 @@ INSERT INTO `users_security_role` (`users_id`, `security_role_id`) VALUES
 (1, 1);
 
 
+INSERT INTO `album` (`id`, `name`) VALUES
+(1, 'album 1');
+
+
 # --- !Downs

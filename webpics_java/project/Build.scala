@@ -10,7 +10,8 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "be.objectify" %% "deadbolt-2" % "1.1.3-SNAPSHOT",
       "com.feth" %% "play-authenticate" % "0.2.0-SNAPSHOT",
-      "mysql" % "mysql-connector-java" % "5.1.18"
+      "mysql" % "mysql-connector-java" % "5.1.18",
+      "org.imgscalr" % "imgscalr-lib" % "4.2"
 
       // Add your project dependencies here,
     )

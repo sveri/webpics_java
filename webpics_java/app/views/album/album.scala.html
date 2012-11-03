@@ -1,3 +1,5 @@
+@(photos: List[models.pic.Photo])
+
 @scripts = {
     @scriptsPartial()
 }
@@ -7,16 +9,18 @@
 }
 
 @main(Messages("pix.navigation.albums"),"", scripts, navleft) {
-	<div id="galleria">
-        <img src="photo1.jpg">
-        <img src="photo2.jpg">
-        <img src="photo3.jpg">
+ 	<div id="galleria">
+		@for(photo <- photos){
+ 			<a href="@routes.Album.getFile(1, photo.name)">
+ 				<img src="@routes.Album.getFile(1, photo.name)" data-big="@routes.Album.getFile(1, photo.name)" 
+ 				data-title="My title" data-description="My description"></a>
+		}
     </div>
-    <script>
-         Galleria.loadTheme('galleria/themes/classic/galleria.classic.min.js');
-         Galleria.run('#galleria');
-    </script>
-
+	<script type="text/javascript">
+	
+	Galleria.loadTheme('@routes.Assets.at("javascripts/galleria/themes/classic/galleria.classic.min.js")');
+	Galleria.run('#galleria');
+	</script>
 
 	<div id="file-uploader" ></div>
     	
@@ -24,5 +28,7 @@
 		<button class="btn btn-primary" id="triggerUpload" >Upload Files</button>
 	</div>
 	
+	<!-- 
+ -->
 	<input type="hidden" value="1" id="albumId"/>
 }

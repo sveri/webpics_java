@@ -20,9 +20,8 @@ create table linked_account (
 create table photo (
   id                        bigint auto_increment not null,
   name                      varchar(255),
-  path                      varchar(255),
+  path_normal               varchar(255),
   album_id_id               bigint,
-  constraint uq_photo_path unique (path),
   constraint pk_photo primary key (id))
 ;
 
