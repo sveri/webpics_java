@@ -15,6 +15,7 @@ import play.mvc.Call;
 
 public class Global extends GlobalSettings {
 
+	@Override
 	public void onStart(Application app) {
 		PlayAuthenticate.setResolver(new Resolver() {
 
@@ -40,26 +41,32 @@ public class Global extends GlobalSettings {
 			public Call auth(final String provider) {
 				// You can provide your own authentication implementation,
 				// however the default should be sufficient for most cases
-				return com.feth.play.module.pa.controllers.routes.Authenticate
-						.authenticate(provider);
+				// return
+				// com.feth.play.module.pa.controllers.routes.Authenticate
+				// .authenticate(provider);
+				return null;
 			}
 
 			@Override
 			public Call askMerge() {
-				return routes.Account.askMerge();
+				// return routes.Account.askMerge();
+				return null;
+
 			}
 
 			@Override
 			public Call askLink() {
-				return routes.Account.askLink();
+				// return routes.Account.askLink();
+				return null;
 			}
 
 			@Override
 			public Call onException(final AuthException e) {
 				if (e instanceof AccessDeniedException) {
-					return routes.Signup
-							.oAuthDenied(((AccessDeniedException) e)
-									.getProviderKey());
+					// return routes.Signup
+					// .oAuthDenied(((AccessDeniedException) e)
+					// .getProviderKey());
+					return null;
 				}
 
 				// more custom problem handling here...

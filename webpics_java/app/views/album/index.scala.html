@@ -12,5 +12,13 @@
 }
 
 @main(Messages("pix.navigation.albums"),"", Html(""), navleft) {
-	contentaaaa
+	
+	@helper.form(action = routes.Album.newAlbum) {
+		<fieldset>
+			<label>@Messages("pix.albums.new.album"):</label>
+			<input type="text" placeholder="@Messages("pix.albums.album.name")" name="name"/> <br />
+			
+			<button type="submit" class="btn">@Messages("pix.Ok")</button>
+		</fieldset>
+	}
 }

@@ -13,7 +13,7 @@ $(document).ready(function() {
 		uploadButtonText : "Select Files",
 		// path to server-side upload script
 		action : '/album/upload/files/',
-		allowedExtensions : [ "jpg", "png", "gif" ],
+		allowedExtensions : [ "jpg", "png", "gif", "zip" ],
 		onComplete : function(id, fileName, responseJSON){console.log("bin da")},
 		onSubmit: function() {
 	        uploader.setParams({

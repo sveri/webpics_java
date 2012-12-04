@@ -1,0 +1,35 @@
+@(albumId: Long)
+
+@scripts = {
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/fileuploader.css")" />
+	<script src="@routes.Assets.at("javascripts/fileuploader.min.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/album/uploader.js")" type="text/javascript"></script>
+}
+
+@navleft = {
+	@navLeftPartial(albumId)
+}
+
+@main(Messages("pix.navigation.albums"),"", scripts, navleft) {
+	<input type="hidden" value="@albumId" id="albumId"/>
+	
+	<div id="file-uploader" ></div>
+    	
+	<div>
+		<button class="btn btn-primary" id="triggerUpload" >Upload Files</button>
+	</div>
+	
+	<br />
+	
+	<p>
+	    @helper.form(action = routes.Album.uploadLocalZipFile(albumId)) {
+			<fieldset>
+				<legend>@Messages("pix.album.album.upload.local_path_message")</legend>
+				<input type="text" placeholder="@Messages("pix.album.album.upload.textfield")" style="width:600px;" 
+					name="file_path"/>
+				<br />
+				<button type="submit" class="btn">Submit</button>
+			</fieldset>
+		}
+	</p>
+}

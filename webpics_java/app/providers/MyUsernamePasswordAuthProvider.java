@@ -111,10 +111,12 @@ public class MyUsernamePasswordAuthProvider
 		super(app);
 	}
 
+	@Override
 	protected Form<MySignup> getSignupForm() {
 		return SIGNUP_FORM;
 	}
 
+	@Override
 	protected Form<MyLogin> getLoginForm() {
 		return LOGIN_FORM;
 	}
@@ -214,17 +216,19 @@ public class MyUsernamePasswordAuthProvider
 	protected Body getVerifyEmailMailingBody(final String token,
 			final MyUsernamePasswordAuthUser user, final Context ctx) {
 
-		final boolean isSecure = getConfiguration().getBoolean(
-				SETTING_KEY_VERIFICATION_LINK_SECURE);
+		// final boolean isSecure = getConfiguration().getBoolean(
+		// SETTING_KEY_VERIFICATION_LINK_SECURE);
 
-		final String url = routes.Signup.verify(token).absoluteURL(
-				ctx.request(), isSecure);
+		// final String url = routes.Signup.verify(token).absoluteURL(
+		// ctx.request(), isSecure);
 
-		final String html = views.html.account.signup.email.verify_email
-				.render(url, token, user.getName()).toString();
-		final String text = views.txt.account.signup.email.verify_email.render(
-				url, token, user.getName()).toString();
-		return new Body(text, html);
+		// final String html = views.html.account.signup.email.verify_email
+		// .render(url, token, user.getName()).toString();
+		// final String text =
+		// views.txt.account.signup.email.verify_email.render(
+		// url, token, user.getName()).toString();
+		// return new Body(text, html);
+		return new Body("bla", "fön");
 	}
 
 	private static String generateToken() {
@@ -258,17 +262,20 @@ public class MyUsernamePasswordAuthProvider
 	protected Body getPasswordResetMailingBody(final String token,
 			final User user, final Context ctx) {
 
-		final boolean isSecure = getConfiguration().getBoolean(
-				SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
-
-		final String url = routes.Signup.resetPassword(token).absoluteURL(
-				ctx.request(), isSecure);
-
-		final String html = views.html.account.email.password_reset.render(url,
-				token, user.name).toString();
-		final String text = views.txt.account.email.password_reset.render(url,
-				token, user.name).toString();
-		return new Body(text, html);
+		// final boolean isSecure = getConfiguration().getBoolean(
+		// SETTING_KEY_PASSWORD_RESET_LINK_SECURE);
+		//
+		// final String url = routes.Signup.resetPassword(token).absoluteURL(
+		// ctx.request(), isSecure);
+		//
+		// final String html =
+		// views.html.account.email.password_reset.render(url,
+		// token, user.name).toString();
+		// final String text =
+		// views.txt.account.email.password_reset.render(url,
+		// token, user.name).toString();
+		// return new Body(text, html);
+		return new Body("bla", "fön");
 	}
 
 	public void sendPasswordResetMailing(final User user, final Context ctx) {
@@ -291,17 +298,18 @@ public class MyUsernamePasswordAuthProvider
 	protected Body getVerifyEmailMailingBodyAfterSignup(final String token,
 			final User user, final Context ctx) {
 
-		final boolean isSecure = getConfiguration().getBoolean(
-				SETTING_KEY_VERIFICATION_LINK_SECURE);
-
-		final String url = routes.Signup.verify(token).absoluteURL(
-				ctx.request(), isSecure);
-
-		final String html = views.html.account.email.verify_email.render(url,
-				token, user.name, user.email).toString();
-		final String text = views.txt.account.email.verify_email.render(url,
-				token, user.name, user.email).toString();
-		return new Body(text, html);
+		// final boolean isSecure = getConfiguration().getBoolean(
+		// SETTING_KEY_VERIFICATION_LINK_SECURE);
+		//
+		// final String url = routes.Signup.verify(token).absoluteURL(
+		// ctx.request(), isSecure);
+		//
+		// final String html = views.html.account.email.verify_email.render(url,
+		// token, user.name, user.email).toString();
+		// final String text = views.txt.account.email.verify_email.render(url,
+		// token, user.name, user.email).toString();
+		// return new Body(text, html);
+		return new Body("bla", "fön");
 	}
 
 	public void sendVerifyEmailMailingAfterSignup(final User user,

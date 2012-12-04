@@ -28,11 +28,22 @@ error.pattern=Muss dem Muster {0} genügen
 
 pix.navigation.groups=Gruppen
 
-pix.album.album.upload_pictures=Bilder hochladen
 pix.navigation.albums=Alben
 pix.navigation.albums.show_all=Alle zeigen
 pix.navigation.albums.photos=Bilder
 pix.navigation.albums.upload=Bilder hochladen
+
+
+pix.albums.new.album=Neues Album erstellen
+pix.albums.album.name=Albumname
+
+pix.album.album.upload.local_path_message=Oder geben Sie einen Pfad auf dem Server an auf den webpics Zugriff hat.
+pix.album.album.upload.textfield=Dateipfad
+
+
+# -- General
+
+pix.Ok=Ok
 
 ### --- play-authenticate START
 
