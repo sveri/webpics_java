@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import models.pic.Photo;
 import play.data.DynamicForm;
-import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
 import service.PictureService;
@@ -46,6 +44,7 @@ public class Album extends Controller {
 		return ok(upload.render(albumId));
 	}
 
+	// <<<<<<< HEAD
 	@Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
 	public static Result newAlbum() {
 		final DynamicForm form = form().bindFromRequest();
@@ -126,4 +125,19 @@ public class Album extends Controller {
 
 		return ok(bais);
 	}
+
+	// =======
+	// @Restrict(Application.ADMIN_ROLE)
+	// public static Result uploadFiles(Long albumId, String qqfile) {
+	//
+	// final File file = request().body().asRaw().asFile();
+	// if (!PictureService.storePicture(file, albumId, qqfile)) {
+	// return ok("{\"error\": Something went wrong.}");
+	// }
+	//
+	// return ok("{\"success\": true}");
+	// }
+	//
+	// @Restrict(Application.USER_ROLE)
+	// >>>>>>> branch 'master' of https://github.com/sveri/webpics_java.git
 }
