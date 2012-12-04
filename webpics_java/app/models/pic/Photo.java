@@ -14,50 +14,52 @@ import service.PictureService;
 @Entity
 public class Photo extends Model {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    @Id
-    public Long id;
+	@Id
+	public Long id;
 
-    @Required
-    public String name;
+	@Required
+	public String name;
 
-    @Required
-    public String pathNormal;
-    //
-    // @Required
-    // @Column(unique = true)
-    // public String pathBig;
-    //
-    // @Required
-    // @Column(unique = true)
-    // public String pathThumb;
+	@Required
+	public String pathNormal;
+	//
+	// @Required
+	// @Column(unique = true)
+	// public String pathBig;
+	//
+	// @Required
+	// @Column(unique = true)
+	// public String pathThumb;
 
-    @Required
-    @ManyToOne
-    public Album albumId;
+	@Required
+	@ManyToOne
+	public Album albumId;
 
-    public static Finder<Long, Photo> find = new Finder<Long, Photo>(Long.class, Photo.class);
+	public static Finder<Long, Photo> find = new Finder<Long, Photo>(
+			Long.class, Photo.class);
 
-    // public static boolean photoExists(String path) {
-    // return find.where().ilike("path", path).ilike("name", qq)findRowCount() >
-    // 0;
-    // }
+	// public static boolean photoExists(String path) {
+	// return find.where().ilike("path", path).ilike("name", qq)findRowCount() >
+	// 0;
+	// }
 
-    public static Photo findPhotoByPath(String pathNormal, String qqfile) {
-	return find.where().ilike("path_normal", pathNormal).ilike("name", qqfile).findUnique();
-    }
+	public static Photo findPhotoByPath(String pathNormal, String qqfile) {
+		return find.where().ilike("path_normal", pathNormal)
+				.ilike("name", qqfile).findUnique();
+	}
 
-    public static List<Photo> findPhotosByAlbumId(Long albumId) {
-	return find.where().le("album_id_id", albumId).findList();
-    }
+	public static List<Photo> findPhotosByAlbumId(Long albumId) {
+		return find.where().eq("album_id_id", albumId).findList();
+	}
 
-    public String getPathThumb() {
-	return pathNormal + File.separator + PictureService.THUMBS_PATH;
-    }
+	public String getPathThumb() {
+		return pathNormal + File.separator + PictureService.THUMBS_PATH;
+	}
 
-    public String getPathBig() {
-	return pathNormal + File.separator + PictureService.BIG_PATH;
-    }
+	public String getPathBig() {
+		return pathNormal + File.separator + PictureService.BIG_PATH;
+	}
 
 }
