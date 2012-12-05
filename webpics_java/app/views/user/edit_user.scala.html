@@ -1,0 +1,66 @@
+@(userForm: Form[_])
+
+@import helper._
+@import helper.twitterBootstrap._
+
+@navleft = {
+	@_navLeftPartial()
+}
+
+@main(Messages("pix.user"),"", Html(""), navleft) {
+	
+	@helper.form(action = routes.Admin.doEditUser, 'class -> "form-horizontal") {
+	
+		<fieldset>
+            <legend>@Messages("pix.navigation.user.edit")</legend>
+            
+            @inputText(
+                userForm("name"), 
+                '_label -> Messages("pix.name"), 
+                '_error -> userForm.globalError
+            )
+            <br />
+            
+            @inputText(
+                userForm("email"), 
+                '_label -> Messages("pix.email"), 
+                '_error -> userForm.globalError
+            )            
+            <br />
+            
+            @checkbox(
+                userForm("active"), 
+                '_label -> None, '_text -> Messages("pix.user.active"),
+                '_showConstraints -> false
+            )            
+            <br />
+            
+            @checkbox(
+                userForm("emailValidated"), 
+                '_label -> None, '_text -> Messages("pix.user.email_validated"),
+                '_showConstraints -> false
+            )            
+            <br />
+            
+            @inputPassword(
+                userForm("password"), 
+                '_label -> Messages("pix.password"),
+                '_help -> Messages("pix.user.password.helptext")
+            )
+            <br />
+            
+            @inputPassword(
+                userForm("repeatPassword"), 
+                '_label -> Messages("pix.user.password_repeat"),
+                '_help -> Messages("pix.user.password_repeat.helptext"),
+                '_error -> userForm.error("password")
+            )
+        </fieldset>
+        
+        <br />
+        
+        <div class="actions">
+            <input type="submit" class="btn primary" value="Sign Up">
+        </div>
+	}
+}

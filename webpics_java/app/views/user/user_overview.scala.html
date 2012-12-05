@@ -1,0 +1,34 @@
+@(users: List[models.User])
+
+@navleft = {
+	@_navLeftPartial()
+}
+
+@main(Messages("pix.user"),"", Html(""), navleft) {
+	
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>@Messages("pix.name")</th>
+				<th>@Messages("pix.email")</th>
+				<th>@Messages("pix.user.lastlogin")</th>
+				<th>@Messages("pix.user.active")</th>
+				<th>@Messages("pix.user.email_validated")</th>
+				<th>@Messages("pix.user.roles")</th>
+			</tr>
+		</thead>
+		<tbody>
+			@for(user <- users){
+				<tr>
+					<td><a href="@routes.Admin.editUser(user.id)"> @user.name</a>
+					</td>
+					<td>@user.email</td>
+					<td>@user.lastLogin</td>
+					<td><input type="checkbox" @if(user.active){checked="checked"}></td>
+					<td><input type="checkbox" @if(user.emailValidated){checked="checked"}></td>
+					<td>@for(role <-user.roles) {@role.roleName, }</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}

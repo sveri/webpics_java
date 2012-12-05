@@ -27,11 +27,17 @@ error.email=Valide E-Mail-Adresse erforderlich
 error.pattern=Muss dem Muster {0} genügen
 
 pix.navigation.groups=Gruppen
+pix.navigation.user=Benutzerverwaltung
 
 pix.navigation.albums=Alben
 pix.navigation.albums.show_all=Alle zeigen
 pix.navigation.albums.photos=Bilder
 pix.navigation.albums.upload=Bilder hochladen
+
+pix.navigation.user.nav_header=Benutzerverwaltung
+pix.navigation.user.add=Benutzer hinzufügen
+pix.navigation.user.edit=Benutzer bearbeiten
+pix.navigation.user.overview=Benutzerübersicht
 
 
 pix.albums.new.album=Neues Album erstellen
@@ -40,10 +46,23 @@ pix.albums.album.name=Albumname
 pix.album.album.upload.local_path_message=Oder geben Sie einen Pfad auf dem Server an auf den webpics Zugriff hat.
 pix.album.album.upload.textfield=Dateipfad
 
+pix.user.lastlogin=Letzter Login
+pix.user.active=Aktiv
+pix.user.email_validated=E-Mail bestätigt
+pix.user.roles=Rollen
+pix.user.password_repeat=Passwort wiederholen
+pix.user.password.helptext=Passwort muss mind. 6 Zeichen enthalten
+pix.user.password_repeat.helptext=Passwort nochmal eingeben
+
 
 # -- General
 
 pix.Ok=Ok
+pix.name=Name
+pix.email=E-Mail
+pix.password=Passwort
+pix.user=Benutzer
+pix.save=Speichern
 
 ### --- play-authenticate START
 

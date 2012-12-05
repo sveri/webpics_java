@@ -41,11 +41,12 @@
           
 			<div class="nav-collapse">
 				<ul class="nav">
-            	@restrict(la(as("admin"))) {
-					<li><a href="admin/groups">@Messages("pix.navigation.groups")</a></li>
-				}
             	@restrict(la(as("admin"), as("user"))) {
 					<li><a href="@routes.Album.index()">@Messages("pix.navigation.albums")</a></li>
+				}
+            	@restrict(la(as("admin"))) {
+					<li><a href="admin/groups">@Messages("pix.navigation.groups")</a></li>
+					<li><a href="@routes.Admin.userOverview">@Messages("pix.navigation.user")</a></li>
 				}
             	</ul>
             </div><!--/.nav-collapse -->

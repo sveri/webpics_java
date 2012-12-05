@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import models.TokenAction.Type;
 import play.data.format.Formats;
+import play.data.validation.Constraints.MinLength;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import scala.actors.threadpool.Arrays;
 import be.objectify.deadbolt.models.Permission;
@@ -44,11 +46,11 @@ public class User extends Model implements RoleHolder {
     public Long id;
 
     @Email
-    // if you make this unique, keep in mind that users *must* merge/link their
-    // accounts then on signup with additional providers
-    // @Column(unique = true)
+    @Required
     public String email;
 
+    @Required
+    @MinLength(5)
     public String name;
 
     @Formats.DateTime(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -67,21 +69,19 @@ public class User extends Model implements RoleHolder {
     @ManyToMany
     public List<UserPermission> permissions;
 
-    public static final Finder<Long, User> find = new Finder<Long, User>(
-	    Long.class, User.class);
+    public static final Finder<Long, User> find = new Finder<Long, User>(Long.class, User.class);
 
     @Override
     public List<? extends Role> getRoles() {
-	return roles;
+	return this.roles;
     }
 
     @Override
     public List<? extends Permission> getPermissions() {
-	return permissions;
+	return this.permissions;
     }
 
-    public static boolean existsByAuthUserIdentity(
-	    final AuthUserIdentity identity) {
+    public static boolean existsByAuthUserIdentity(final AuthUserIdentity identity) {
 	final ExpressionList<User> exp;
 	if (identity instanceof UsernamePasswordAuthUser) {
 	    exp = getUsernamePasswordAuthUserFind((UsernamePasswordAuthUser) identity);
@@ -91,10 +91,8 @@ public class User extends Model implements RoleHolder {
 	return exp.findRowCount() > 0;
     }
 
-    private static ExpressionList<User> getAuthUserFind(
-	    final AuthUserIdentity identity) {
-	return find.where().eq("active", true)
-		.eq("linkedAccounts.providerUserId", identity.getId())
+    private static ExpressionList<User> getAuthUserFind(final AuthUserIdentity identity) {
+	return find.where().eq("active", true).eq("linkedAccounts.providerUserId", identity.getId())
 		.eq("linkedAccounts.providerKey", identity.getProvider());
     }
 
@@ -109,15 +107,12 @@ public class User extends Model implements RoleHolder {
 	}
     }
 
-    public static User findByUsernamePasswordIdentity(
-	    final UsernamePasswordAuthUser identity) {
+    public static User findByUsernamePasswordIdentity(final UsernamePasswordAuthUser identity) {
 	return getUsernamePasswordAuthUserFind(identity).findUnique();
     }
 
-    private static ExpressionList<User> getUsernamePasswordAuthUserFind(
-	    final UsernamePasswordAuthUser identity) {
-	return getEmailUserFind(identity.getEmail()).eq(
-		"linkedAccounts.providerKey", identity.getProvider());
+    private static ExpressionList<User> getUsernamePasswordAuthUserFind(final UsernamePasswordAuthUser identity) {
+	return getEmailUserFind(identity.getEmail()).eq("linkedAccounts.providerKey", identity.getProvider());
     }
 
     public void merge(final User otherUser) {
@@ -133,14 +128,12 @@ public class User extends Model implements RoleHolder {
 
     public static User create(final AuthUser authUser) {
 	final User user = new User();
-	user.roles = Collections.singletonList(SecurityRole
-		.findByRoleName(controllers.Application.USER_ROLE));
+	user.roles = Collections.singletonList(SecurityRole.findByRoleName(controllers.Application.USER_ROLE));
 	// user.permissions = new ArrayList<UserPermission>();
 	// user.permissions.add(UserPermission.findByValue("printers.edit"));
 	user.active = true;
 	user.lastLogin = new Date();
-	user.linkedAccounts = Collections.singletonList(LinkedAccount
-		.create(authUser));
+	user.linkedAccounts = Collections.singletonList(LinkedAccount.create(authUser));
 
 	if (authUser instanceof EmailIdentity) {
 	    final EmailIdentity identity = (EmailIdentity) authUser;
@@ -166,21 +159,18 @@ public class User extends Model implements RoleHolder {
     }
 
     public static void merge(final AuthUser oldUser, final AuthUser newUser) {
-	User.findByAuthUserIdentity(oldUser).merge(
-		User.findByAuthUserIdentity(newUser));
+	User.findByAuthUserIdentity(oldUser).merge(User.findByAuthUserIdentity(newUser));
     }
 
     public Set<String> getProviders() {
-	final Set<String> providerKeys = new HashSet<String>(
-		linkedAccounts.size());
-	for (final LinkedAccount acc : linkedAccounts) {
+	final Set<String> providerKeys = new HashSet<String>(this.linkedAccounts.size());
+	for (final LinkedAccount acc : this.linkedAccounts) {
 	    providerKeys.add(acc.providerKey);
 	}
 	return providerKeys;
     }
 
-    public static void addLinkedAccount(final AuthUser oldUser,
-	    final AuthUser newUser) {
+    public static void addLinkedAccount(final AuthUser oldUser, final AuthUser newUser) {
 	final User u = User.findByAuthUserIdentity(oldUser);
 	u.linkedAccounts.add(LinkedAccount.create(newUser));
 	u.save();
@@ -211,26 +201,23 @@ public class User extends Model implements RoleHolder {
 	TokenAction.deleteByUser(unverified, Type.EMAIL_VERIFICATION);
     }
 
-    public void changePassword(final UsernamePasswordAuthUser authUser,
-	    final boolean create) {
-	LinkedAccount a = this.getAccountByProvider(authUser.getProvider());
+    public void changePassword(final UsernamePasswordAuthUser authUser, final boolean create) {
+	LinkedAccount a = getAccountByProvider(authUser.getProvider());
 	if (a == null) {
 	    if (create) {
 		a = LinkedAccount.create(authUser);
 		a.user = this;
 	    } else {
-		throw new RuntimeException(
-			"Account not enabled for password usage");
+		throw new RuntimeException("Account not enabled for password usage");
 	    }
 	}
 	a.providerUserId = authUser.getHashedPassword();
 	a.save();
     }
 
-    public void resetPassword(final UsernamePasswordAuthUser authUser,
-	    final boolean create) {
+    public void resetPassword(final UsernamePasswordAuthUser authUser, final boolean create) {
 	// You might want to wrap this into a transaction
-	this.changePassword(authUser, create);
+	changePassword(authUser, create);
 	TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
     }
 }

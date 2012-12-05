@@ -14,6 +14,11 @@ POST	/album/upload/files/		controllers.Album.uploadFiles(albumId: Long, qqfile)
 POST	/album/upload/localzipfile/		controllers.Album.uploadLocalZipFile(albumId: Long)
 GET		/album/retrieve/file/		controllers.Album.getFile(albumId: Long, fileName: String, size: String)
 
+GET		/admin/useroverview			controllers.Admin.userOverview
+GET		/admin/adduser				controllers.Admin.addUser
+GET		/admin/edituser/:userId		controllers.Admin.editUser(userId: Long)
+POST	/admin/doedituser			controllers.Admin.doEditUser
+
 GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes
 
