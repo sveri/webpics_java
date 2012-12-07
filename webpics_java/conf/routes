@@ -18,6 +18,7 @@ GET		/admin/useroverview			controllers.Admin.userOverview
 GET		/admin/adduser				controllers.Admin.addUser
 GET		/admin/edituser/:userId		controllers.Admin.editUser(userId: Long)
 POST	/admin/doedituser			controllers.Admin.doEditUser
+POST	/admin/dochangepassword		controllers.Admin.doChangePassword
 
 GET     /restricted                 controllers.Application.restricted
 GET     /assets/javascript/routes.js    controllers.Application.jsRoutes

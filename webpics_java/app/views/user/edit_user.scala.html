@@ -1,4 +1,4 @@
-@(userForm: Form[_])
+@(userForm: Form[_], passwordForm: Form[_], existingRoles: List[models.SecurityRole], userRoles: List[models.SecurityRole])
 
 @import helper._
 @import helper.twitterBootstrap._
@@ -13,6 +13,12 @@
 	
 		<fieldset>
             <legend>@Messages("pix.navigation.user.edit")</legend>
+            
+            @if(userForm.hasGlobalErrors) { 
+                <p class="error">
+		            <span class="label label-important">@userForm.globalError.message</span>
+		        </p>
+            }
             
             @inputText(
                 userForm("name"), 
@@ -42,25 +48,50 @@
             )            
             <br />
             
+			<select multiple="multiple" class="multiselect" id="userRole" name="userRole">
+				@for(eRole <- existingRoles) {
+					<option value="@eRole.id" @if(userRoles.contains(eRole)) {selected="selected"}>@eRole.roleName</option>                
+				}
+			</select>
+			
+        </fieldset>
+        
+        <br />
+        
+        <div class="actions">
+            <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.save")">
+        </div>
+        
+        <input type="hidden" name="id" id="id" value="@userForm("id").value" />
+	}
+	
+	@helper.form(action = routes.Admin.doChangePassword, 'class -> "form-horizontal") {
+        <fieldset>
+            <legend>@Messages("pix.navigation.user.password_change")</legend>
+            
             @inputPassword(
-                userForm("password"), 
+                passwordForm("password"), 
                 '_label -> Messages("pix.password"),
-                '_help -> Messages("pix.user.password.helptext")
+                '_help -> Messages("pix.user.password.helptext"),
+                'autocomplete -> "off"
             )
             <br />
             
             @inputPassword(
-                userForm("repeatPassword"), 
+                passwordForm("repeatPassword"), 
                 '_label -> Messages("pix.user.password_repeat"),
                 '_help -> Messages("pix.user.password_repeat.helptext"),
-                '_error -> userForm.error("password")
+                '_error -> userForm.error("password"),
+                'autocomplete -> "off"
             )
         </fieldset>
         
         <br />
         
         <div class="actions">
-            <input type="submit" class="btn primary" value="Sign Up">
+            <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.password_change.save")">
         </div>
+	
+        <input type="hidden" name="user_id_for_password" id="user_id_for_password" value="@userForm("id").value" />
 	}
 }

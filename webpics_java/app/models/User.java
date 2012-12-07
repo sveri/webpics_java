@@ -1,5 +1,6 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -12,13 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import models.TokenAction.Type;
 import play.data.format.Formats;
 import play.data.validation.Constraints.MinLength;
 import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
+import play.i18n.Messages;
 import scala.actors.threadpool.Arrays;
+import tyrex.security.container.helper.RolesRealm;
 import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
 import be.objectify.deadbolt.models.RoleHolder;
@@ -176,6 +180,13 @@ public class User extends Model implements RoleHolder {
 	u.save();
     }
 
+    public static void addRole(final User user, final Long roleId) {
+	if (user.roles == null) {
+	    user.roles = new ArrayList<SecurityRole>();
+	}
+	user.roles.add(SecurityRole.find.byId(roleId));
+    }
+
     public static void setLastLoginDate(final AuthUser knownUser) {
 	final User u = User.findByAuthUserIdentity(knownUser);
 	u.lastLogin = new Date();
@@ -219,5 +230,13 @@ public class User extends Model implements RoleHolder {
 	// You might want to wrap this into a transaction
 	changePassword(authUser, create);
 	TokenAction.deleteByUser(this, Type.PASSWORD_RESET);
+    }
+
+    public String validate() {
+	final User user = find.where().eq("email", this.email).findUnique();
+	if (user != null && user.id != this.id) {
+	    return Messages.get("playauthenticate.password.signup.error.username_exists");
+	}
+	return null;
     }
 }

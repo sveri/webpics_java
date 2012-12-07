@@ -37,6 +37,9 @@ pix.navigation.albums.upload=Bilder hochladen
 pix.navigation.user.nav_header=Benutzerverwaltung
 pix.navigation.user.add=Benutzer hinzufügen
 pix.navigation.user.edit=Benutzer bearbeiten
+pix.navigation.user.save=Benutzer speichern
+pix.navigation.user.password_change=Passwort ändern
+pix.navigation.user.password_change.save=Passwort ändern
 pix.navigation.user.overview=Benutzerübersicht
 
 
@@ -57,7 +60,7 @@ pix.user.password_repeat.helptext=Passwort nochmal eingeben
 
 # -- General
 
-pix.Ok=Ok
+pix.ok=Ok
 pix.name=Name
 pix.email=E-Mail
 pix.password=Passwort
@@ -85,6 +88,7 @@ playauthenticate.change_password.success=Das Passwort wurde erfolgreich geänder
 
 playauthenticate.password.signup.error.passwords_not_same=Die Passwörter stimmen nicht überein.
 playauthenticate.password.login.unknown_user_or_pw=Der Benutzer wurde nicht gefunden oder das Passwort stimmt nicht überein.
+playauthenticate.password.signup.error.username_exists=Der Benutzername ist bereits vergeben.
 
 playauthenticate.password.verify_signup.subject=PlayAuthenticate: Vervollständige deine Anmeldung
 playauthenticate.password.verify_email.subject=PlayAuthenticate: E-Mail-Adresse bestätigen

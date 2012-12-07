@@ -15,6 +15,8 @@
  */
 package models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,24 +28,28 @@ import be.objectify.deadbolt.models.Role;
  */
 @Entity
 public class SecurityRole extends Model implements Role {
-	/**
+    /**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id
-	public Long id;
+    @Id
+    public Long id;
 
-	public String roleName;
+    public String roleName;
 
-	public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(
-			Long.class, SecurityRole.class);
+    public static final Finder<Long, SecurityRole> find = new Finder<Long, SecurityRole>(Long.class, SecurityRole.class);
 
-	public String getRoleName() {
-		return roleName;
-	}
+    @Override
+    public String getRoleName() {
+	return this.roleName;
+    }
 
-	public static SecurityRole findByRoleName(String roleName) {
-		return find.where().eq("roleName", roleName).findUnique();
-	}
+    public static SecurityRole findByRoleName(final String roleName) {
+	return find.where().eq("roleName", roleName).findUnique();
+    }
+
+    public static List<SecurityRole> findAllOrderByName() {
+	return find.order("roleName").findList();
+    }
 }
