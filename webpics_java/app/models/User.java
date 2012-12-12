@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import models.TokenAction.Type;
 import play.data.format.Formats;
@@ -22,7 +21,6 @@ import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 import play.i18n.Messages;
 import scala.actors.threadpool.Arrays;
-import tyrex.security.container.helper.RolesRealm;
 import be.objectify.deadbolt.models.Permission;
 import be.objectify.deadbolt.models.Role;
 import be.objectify.deadbolt.models.RoleHolder;

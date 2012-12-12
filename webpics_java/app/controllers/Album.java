@@ -10,6 +10,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 import models.pic.Photo;
+import play.Logger;
 import play.data.DynamicForm;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -25,22 +26,49 @@ import be.objectify.deadbolt.actions.RoleHolderPresent;
 public class Album extends Controller {
 
     @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
-    public static Result index() {
-	final List<models.pic.Album> all = models.pic.Album.find.order("name").findList();
-
-	return ok(index.render(all));
-    }
-
-    @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
     public static Result albums(final Long albumId) {
 	final List<Photo> photos = Photo.findPhotosByAlbumId(albumId);
 
 	return ok(album.render(photos, albumId));
     }
 
-    @Restrict(Application.ADMIN_ROLE)
-    public static Result upload(final Long albumId) {
-	return ok(upload.render(albumId));
+    @RoleHolderPresent
+    public static Result getFile(final Long albumId, final String fileName, final String size) {
+	BufferedImage image = null;
+	final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	String path = "/home/sveri/git/webpics_java/webpics_java/pix_bin/album/" + albumId + "/";
+	switch (size) {
+	case "big":
+	    path += "big/";
+	    break;
+	case "thumbs":
+	    path += "thumbs/";
+	    break;
+
+	default:
+	    break;
+	}
+
+	path += fileName;
+
+	try {
+	    image = ImageIO.read(new File(path));
+	    ImageIO.write(image, "jpg", baos);
+	} catch (final IOException e) {
+	    Logger.error("Error creating target folder or moving file, or maybe album does not exist.", e);
+	}
+	final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+
+	response().setContentType("image/jpg");
+
+	return ok(bais);
+    }
+
+    @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
+    public static Result index() {
+	final List<models.pic.Album> all = models.pic.Album.find.order("name").findList();
+
+	return ok(index.render(all));
     }
 
     @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
@@ -52,6 +80,11 @@ public class Album extends Controller {
 	album.save();
 
 	return redirect(routes.Album.index());
+    }
+
+    @Restrict(Application.ADMIN_ROLE)
+    public static Result upload(final Long albumId) {
+	return ok(upload.render(albumId));
     }
 
     @Restrict(Application.ADMIN_ROLE)
@@ -88,39 +121,6 @@ public class Album extends Controller {
 	// }
 
 	return redirect(routes.Album.albums(albumId));
-    }
-
-    @RoleHolderPresent
-    public static Result getFile(final Long albumId, final String fileName, final String size) {
-	BufferedImage image = null;
-	final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	String path = "/home/sveri/git/webpics_java/webpics_java/pix_bin/album/" + albumId + "/";
-	switch (size) {
-	case "big":
-	    path += "big/";
-	    break;
-	case "thumbs":
-	    path += "thumbs/";
-	    break;
-
-	default:
-	    break;
-	}
-
-	path += fileName;
-
-	try {
-	    image = ImageIO.read(new File(path));
-	    ImageIO.write(image, "jpg", baos);
-	} catch (final IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	final ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-
-	response().setContentType("image/jpg");
-
-	return ok(bais);
     }
 
     // =======
