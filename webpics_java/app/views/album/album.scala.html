@@ -34,21 +34,37 @@
 		var gallery = Galleria.get(0);
 
 		$('#rotate-right').click(function() {
+			rotateRight();
+		});
+		$('#rotate-left').click(function() {
+			rotateLeft();
+		});
+		
+		gallery.attachKeyboard({
+			13: function(){
+				console.log('bin da')
+			},
+			left: gallery.prev,
+			right: rotateRight()
+		});
+		
+		function rotateRight(){
 			value += 90;
 			$('#galleria').find('.galleria-stage').find('.galleria-images').find('.galleria-image').each(function(){
 				$(this).find('img').rotate(value);
 				console.log(value);
 				//console.log($(this).find('img').attr('src'));
 			});
-		});
-		$('#rotate-left').click(function() {
+		}
+		
+		function rotateLeft(){
 			value -= 90;
 			$('#galleria').find('.galleria-stage').find('.galleria-images').find('.galleria-image').each(function(){
 				$(this).find('img').rotate(value);
 				//console.log($(this).find('img').attr('src'));
 				console.log(value);
 			});
-		});
+		}
 		
 		$('#fullscreen').click(function() {
 	        gallery.enterFullscreen(); // will go full screen when the #fullscreen element is clicked
