@@ -2,13 +2,9 @@ package controllers;
 
 import models.TokenAction;
 import models.TokenAction.Type;
-import models.User;
-import play.i18n.Messages;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.account.signup.exists;
-import views.html.account.signup.no_token_or_invalid;
-import views.html.account.signup.unverified;
 
 public class Signup extends Controller {
 
@@ -169,23 +165,4 @@ public class Signup extends Controller {
     // public static Result oAuthDenied(final String getProviderKey) {
     // return ok(oAuthDenied.render(getProviderKey));
     // }
-
-    public static Result unverified() {
-	return ok(unverified.render());
-    }
-
-    public static Result verify(final String token) {
-	final TokenAction ta = tokenIsValid(token, Type.EMAIL_VERIFICATION);
-	if (ta == null) {
-	    return badRequest(no_token_or_invalid.render());
-	}
-	final String email = ta.targetUser.email;
-	User.verify(ta.targetUser);
-	flash(Application.FLASH_MESSAGE_KEY, Messages.get("playauthenticate.verify_email.success", email));
-	if (Application.getLocalUser(session()) != null) {
-	    return redirect(routes.Application.index());
-	} else {
-	    return redirect(routes.Application.login());
-	}
-    }
 }

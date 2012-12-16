@@ -2,7 +2,9 @@
 
 INSERT INTO `security_role` (`id`, `role_name`) VALUES
 (1, 'admin'),
-(2, 'user');
+(2, 'user'),
+(2, 'viewer');
+
 
 INSERT INTO `users` (`id`, `email`, `name`, `last_login`, `active`, `email_validated`) VALUES
 (1, 'admin@example.com', 'admin', '2012-10-07 15:36:39', 1, 1);

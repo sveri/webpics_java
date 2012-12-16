@@ -49,6 +49,7 @@ pix.navigation.user.overview=Benutzerübersicht
 
 pix.albums.new.album=Neues Album erstellen
 pix.albums.album.name=Albumname
+pix.albums.choose_album=Bitte wählen Sie auf der linken Seite ein Album aus.
 
 pix.album.album.upload.local_path_message=Oder geben Sie einen Pfad auf dem Server an auf den webpics Zugriff hat.
 pix.album.album.upload.textfield=Dateipfad

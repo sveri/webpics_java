@@ -25,7 +25,7 @@ import be.objectify.deadbolt.actions.RoleHolderPresent;
 
 public class Album extends Controller {
 
-    @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
+    @RoleHolderPresent
     public static Result albums(final Long albumId) {
 	final List<Photo> photos = Photo.findPhotosByAlbumId(albumId);
 
@@ -64,7 +64,7 @@ public class Album extends Controller {
 	return ok(bais);
     }
 
-    @Restrictions({ @And(Application.USER_ROLE), @And(Application.ADMIN_ROLE) })
+    @RoleHolderPresent
     public static Result index() {
 	final List<models.pic.Album> all = models.pic.Album.find.order("name").findList();
 
@@ -116,25 +116,6 @@ public class Album extends Controller {
 	    }
 	}
 
-	// } else if (!PictureService.storePicture(file, albumId, qqfile)) {
-	// return ok("{\"error\": Something went wrong.}");
-	// }
-
 	return redirect(routes.Album.albums(albumId));
     }
-
-    // =======
-    // @Restrict(Application.ADMIN_ROLE)
-    // public static Result uploadFiles(Long albumId, String qqfile) {
-    //
-    // final File file = request().body().asRaw().asFile();
-    // if (!PictureService.storePicture(file, albumId, qqfile)) {
-    // return ok("{\"error\": Something went wrong.}");
-    // }
-    //
-    // return ok("{\"success\": true}");
-    // }
-    //
-    // @Restrict(Application.USER_ROLE)
-    // >>>>>>> branch 'master' of https://github.com/sveri/webpics_java.git
 }

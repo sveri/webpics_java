@@ -177,7 +177,7 @@ public class MyUsernamePasswordAuthProvider
 
 	@Override
 	protected Call userExists(final UsernamePasswordAuthUser authUser) {
-		return routes.Signup.exists();
+		return null;
 	}
 
 	@Override

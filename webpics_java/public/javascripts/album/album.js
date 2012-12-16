@@ -9,8 +9,14 @@ $(document).ready(function() {
 		    var gallery = this; 
 			
 	        gallery.attachKeyboard({
-	            left: gallery.prev,
-	            right: gallery.next,
+	            left: function(){
+	            	rotVal = 0;
+	            	gallery.prev();
+	            },
+	            right: function() {
+	            	rotVal = 0; 
+	            	gallery.next();
+				},
 	            up: function(){
     				rotVal += 90;
 	            	$('#galleria').find('.galleria-stage').find('.galleria-images').find('.galleria-image').each(function(){

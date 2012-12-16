@@ -10,13 +10,8 @@ import play.mvc.Http.Session;
 import play.mvc.Result;
 import providers.MyUsernamePasswordAuthProvider;
 import providers.MyUsernamePasswordAuthProvider.MyLogin;
-import providers.MyUsernamePasswordAuthProvider.MySignup;
 import views.html.index;
 import views.html.login;
-//import views.html.profile;
-import views.html.restricted;
-import views.html.signup;
-import be.objectify.deadbolt.actions.Restrict;
 
 import com.feth.play.module.pa.PlayAuthenticate;
 import com.feth.play.module.pa.providers.password.UsernamePasswordAuthProvider;
@@ -27,6 +22,7 @@ public class Application extends Controller {
     public static final String FLASH_ERROR_KEY = "error";
     public static final String USER_ROLE = "user";
     public static final String ADMIN_ROLE = "admin";
+    public static final String VIEWER_ROLE = "viewer";
 
     public static Result doLogin() {
 	final Form<MyLogin> filledForm = MyUsernamePasswordAuthProvider.LOGIN_FORM.bindFromRequest();
@@ -36,19 +32,6 @@ public class Application extends Controller {
 	} else {
 	    // Everything was filled
 	    return UsernamePasswordAuthProvider.handleLogin(ctx());
-	}
-    }
-
-    public static Result doSignup() {
-	final Form<MySignup> filledForm = MyUsernamePasswordAuthProvider.SIGNUP_FORM.bindFromRequest();
-	if (filledForm.hasErrors()) {
-	    // User did not fill everything properly
-	    return badRequest(signup.render(filledForm));
-	} else {
-	    // Everything was filled
-	    // do something with your part of the form before handling the user
-	    // signup
-	    return UsernamePasswordAuthProvider.handleSignup(ctx());
 	}
     }
 
@@ -80,16 +63,6 @@ public class Application extends Controller {
 
     public static Result login() {
 	return ok(login.render(MyUsernamePasswordAuthProvider.LOGIN_FORM));
-    }
-
-    @Restrict(Application.USER_ROLE)
-    public static Result restricted() {
-	final User localUser = getLocalUser(session());
-	return ok(restricted.render(localUser));
-    }
-
-    public static Result signup() {
-	return ok(signup.render(MyUsernamePasswordAuthProvider.SIGNUP_FORM));
     }
 
 }
