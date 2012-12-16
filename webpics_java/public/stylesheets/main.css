@@ -47,3 +47,7 @@ body {
 .form-horizontal .control-group:after {
     clear: none !important;
 }
+
+.row {
+	margin-left: 0 !important;
+}

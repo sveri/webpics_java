@@ -1,16 +1,19 @@
+@(userForm: Form[_], passwordForm: Form[_], existingRoles: List[models.SecurityRole], userRoles: List[models.SecurityRole])
 
 @navleft = {
 	@_navLeftPartial()
 }
 
-@main(Messages("pix.navigation.albums"),"", Html(""), navleft) {
-	
-	@helper.form(action = routes.Album.newAlbum) {
-		<fieldset>
-			<label>@Messages("pix.albums.new.album"):</label>
-			<input type="text" placeholder="@Messages("pix.albums.album.name")" name="name"/> <br />
-			
-			<button type="submit" class="btn">@Messages("pix.Ok")</button>
-		</fieldset>
-	}
+@main(Messages("pix.user"),"", Html(""), navleft) {
+
+	<div class="row">
+		<div class="span6">
+			@_userFormPartial(userForm, existingRoles, userRoles)
+		
+		</div>
+		<div class="span6">
+			@_passwordPartial(passwordForm, userForm("id").value)
+		
+		</div>
+	</div>
 }

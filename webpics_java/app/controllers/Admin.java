@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +20,8 @@ import views.html.user.user_overview;
 import com.avaje.ebean.Ebean;
 
 public class Admin extends Controller {
+
+    public static final String PASSWORD_USER_CHANGED = "message";
 
     public static class PasswordForm {
 
@@ -49,7 +52,7 @@ public class Admin extends Controller {
     }
 
     public static Result addUser() {
-	return ok(add_user.render());
+	return ok(add_user.render(USER_FORM, PASSWORD_FORM, SecurityRole.findAllOrderByName(), new ArrayList<SecurityRole>()));
     }
 
     public static Result editUser(final Long userId) {
@@ -87,7 +90,9 @@ public class Admin extends Controller {
 	user.saveManyToManyAssociations("roles");
 	user.update();
 
-	return redirect(routes.Admin.userOverview());
+
+	flash(PASSWORD_USER_CHANGED, Messages.get("pix.user.successful_change"));
+	return redirect(routes.Admin.editUser(user.id));
     }
 
     public static Result doChangePassword() {
@@ -103,6 +108,7 @@ public class Admin extends Controller {
 	final String newPassword = passwordForm.get().password;
 	user.changePassword(new MyUsernamePasswordAuthUser(newPassword), true);
 
+	flash(PASSWORD_USER_CHANGED, Messages.get("pix.user.password.successful_change"));
 	return redirect(routes.Admin.editUser(userId));
     }
 }

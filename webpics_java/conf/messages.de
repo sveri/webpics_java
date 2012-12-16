@@ -26,6 +26,10 @@ error.maxLength=Die maximale Länge beträgt {0}
 error.email=Valide E-Mail-Adresse erforderlich
 error.pattern=Muss dem Muster {0} genügen
 
+
+pix.index.title=PIX
+
+
 pix.navigation.groups=Gruppen
 pix.navigation.user=Benutzerverwaltung
 
@@ -56,6 +60,8 @@ pix.user.roles=Rollen
 pix.user.password_repeat=Passwort wiederholen
 pix.user.password.helptext=Passwort muss mind. 6 Zeichen enthalten
 pix.user.password_repeat.helptext=Passwort nochmal eingeben
+pix.user.password.successful_change=Passwort erfolgreich geändert
+pix.user.successful_change=Benutzer erfolgreich geändert
 
 
 # -- General

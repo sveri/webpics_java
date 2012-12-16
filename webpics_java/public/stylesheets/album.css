@@ -1,0 +1,10 @@
+#galleria { 
+	width: 900px; 
+	height: 600px; 
+	background: #000 
+}
+
+#galleria-button-row {
+	margin-top: 20px;
+	margin-left: 55px;
+}

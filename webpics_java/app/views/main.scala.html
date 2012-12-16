@@ -35,17 +35,6 @@
 	@navi._topPartial(nav)
 
 	<div class="container-fluid">
-	
-		@if(flash.contains(Application.FLASH_ERROR_KEY)) {
-	      <div class="alert alert-error">
-	      	@flash().get(Application.FLASH_ERROR_KEY)
-	      </div>
-	    }
-	    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
-	      <div class="alert alert-success">
-	      	@flash().get(Application.FLASH_MESSAGE_KEY)
-	      </div>
-	    }
 	    
 		<div class="row-fluid">
 
@@ -55,6 +44,18 @@
 
 			<div class="content fixed-fixed">
 				<div class="content-container">
+				
+					@if(flash.contains(Application.FLASH_ERROR_KEY)) {
+				      <div class="alert alert-error">
+				      	@flash().get(Application.FLASH_ERROR_KEY)
+				      </div>
+				    }
+				    @if(flash.contains(Application.FLASH_MESSAGE_KEY)) {
+				      <div class="alert alert-success">
+				      	@flash().get(Application.FLASH_MESSAGE_KEY)
+				      </div>
+				    }
+				    
 					@content
 				</div>
 			</div>
@@ -65,7 +66,7 @@
 		<hr>
 
 		<footer>
-			<p>&copy; Company 2012</p>
+			<p>&copy; Sven Richter 2012</p>
 		</footer>
 
 	</div>

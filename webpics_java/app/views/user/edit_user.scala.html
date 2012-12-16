@@ -1,97 +1,19 @@
 @(userForm: Form[_], passwordForm: Form[_], existingRoles: List[models.SecurityRole], userRoles: List[models.SecurityRole])
 
-@import helper._
-@import helper.twitterBootstrap._
-
 @navleft = {
 	@_navLeftPartial()
 }
 
 @main(Messages("pix.user"),"", Html(""), navleft) {
-	
-	@helper.form(action = routes.Admin.doEditUser, 'class -> "form-horizontal") {
-	
-		<fieldset>
-            <legend>@Messages("pix.navigation.user.edit")</legend>
-            
-            @if(userForm.hasGlobalErrors) { 
-                <p class="error">
-		            <span class="label label-important">@userForm.globalError.message</span>
-		        </p>
-            }
-            
-            @inputText(
-                userForm("name"), 
-                '_label -> Messages("pix.name"), 
-                '_error -> userForm.globalError
-            )
-            <br />
-            
-            @inputText(
-                userForm("email"), 
-                '_label -> Messages("pix.email"), 
-                '_error -> userForm.globalError
-            )            
-            <br />
-            
-            @checkbox(
-                userForm("active"), 
-                '_label -> None, '_text -> Messages("pix.user.active"),
-                '_showConstraints -> false
-            )            
-            <br />
-            
-            @checkbox(
-                userForm("emailValidated"), 
-                '_label -> None, '_text -> Messages("pix.user.email_validated"),
-                '_showConstraints -> false
-            )            
-            <br />
-            
-			<select multiple="multiple" class="multiselect" id="userRole" name="userRole">
-				@for(eRole <- existingRoles) {
-					<option value="@eRole.id" @if(userRoles.contains(eRole)) {selected="selected"}>@eRole.roleName</option>                
-				}
-			</select>
-			
-        </fieldset>
-        
-        <br />
-        
-        <div class="actions">
-            <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.save")">
-        </div>
-        
-        <input type="hidden" name="id" id="id" value="@userForm("id").value" />
-	}
-	
-	@helper.form(action = routes.Admin.doChangePassword, 'class -> "form-horizontal") {
-        <fieldset>
-            <legend>@Messages("pix.navigation.user.password_change")</legend>
-            
-            @inputPassword(
-                passwordForm("password"), 
-                '_label -> Messages("pix.password"),
-                '_help -> Messages("pix.user.password.helptext"),
-                'autocomplete -> "off"
-            )
-            <br />
-            
-            @inputPassword(
-                passwordForm("repeatPassword"), 
-                '_label -> Messages("pix.user.password_repeat"),
-                '_help -> Messages("pix.user.password_repeat.helptext"),
-                '_error -> userForm.error("password"),
-                'autocomplete -> "off"
-            )
-        </fieldset>
-        
-        <br />
-        
-        <div class="actions">
-            <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.password_change.save")">
-        </div>
-	
-        <input type="hidden" name="user_id_for_password" id="user_id_for_password" value="@userForm("id").value" />
-	}
+
+	<div class="row">
+		<div class="span6">
+			@_userFormPartial(userForm, existingRoles, userRoles)
+		
+		</div>
+		<div class="span6">
+			@_passwordPartial(passwordForm, userForm("id").value)
+		
+		</div>
+	</div>
 }
