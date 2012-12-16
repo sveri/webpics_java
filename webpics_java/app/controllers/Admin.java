@@ -21,8 +21,6 @@ import com.avaje.ebean.Ebean;
 
 public class Admin extends Controller {
 
-    public static final String PASSWORD_USER_CHANGED = "message";
-
     public static class PasswordForm {
 
 	@Required
@@ -52,7 +50,49 @@ public class Admin extends Controller {
     }
 
     public static Result addUser() {
-	return ok(add_user.render(USER_FORM, PASSWORD_FORM, SecurityRole.findAllOrderByName(), new ArrayList<SecurityRole>()));
+	return ok(add_user.render(USER_FORM, PASSWORD_FORM, SecurityRole.findAllOrderByName(),
+		new ArrayList<SecurityRole>()));
+    }
+
+    public static Result doAddUser() {
+	final Form<User> userForm = USER_FORM.bindFromRequest();
+	final Form<PasswordForm> passwordForm = PASSWORD_FORM.bindFromRequest();
+
+	if (userForm.hasErrors() || passwordForm.hasErrors()) {
+	    flash(Application.FLASH_ERROR_KEY, Messages.get("pix.user.add_edit_error"));
+
+	    return badRequest(add_user.render(userForm, PASSWORD_FORM, SecurityRole.findAllOrderByName(),
+		    new ArrayList<SecurityRole>()));
+	}
+
+	final User user = userForm.get();
+
+	getRolesFromForm(user, request().body().asFormUrlEncoded());
+
+	user.save();
+	user.saveManyToManyAssociations("roles");
+
+	final String newPassword = passwordForm.get().password;
+	user.changePassword(new MyUsernamePasswordAuthUser(newPassword), true);
+
+	flash(Application.FLASH_MESSAGE_KEY, Messages.get("pix.user.successful_added"));
+	return redirect(routes.Admin.userOverview());
+    }
+
+    /*
+     * retrieves the roles from the form which was sent with the request and
+     * adds it to the given user
+     */
+    private static void getRolesFromForm(final User user, final Map<String, String[]> formUrlEncoded) {
+	final Map<String, String[]> formEncoded = formUrlEncoded;
+	for (final String key : formEncoded.keySet()) {
+	    if (key.equals("userRole")) {
+		final String[] roles = formEncoded.get(key);
+		for (final String role : roles) {
+		    User.addRole(user, Long.parseLong(role));
+		}
+	    }
+	}
     }
 
     public static Result editUser(final Long userId) {
@@ -67,6 +107,7 @@ public class Admin extends Controller {
 	if (filledForm.hasErrors()) {
 	    final User user = User.find.byId(Long.parseLong(filledForm.data().get("id")));
 	    // User did not fill everything properly
+	    flash(Application.FLASH_ERROR_KEY, Messages.get("pix.user.add_edit_error"));
 	    return badRequest(edit_user
 		    .render(filledForm, PASSWORD_FORM, SecurityRole.findAllOrderByName(), user.roles));
 	}
@@ -76,22 +117,14 @@ public class Admin extends Controller {
 	if (user.roles != null) {
 	    user.roles.clear();
 	}
-	final Map<String, String[]> formEncoded = request().body().asFormUrlEncoded();
-	for (final String key : formEncoded.keySet()) {
-	    if (key.equals("userRole")) {
-		final String[] roles = formEncoded.get(key);
-		for (final String role : roles) {
-		    User.addRole(user, Long.parseLong(role));
-		}
-	    }
-	}
+
+	getRolesFromForm(user, request().body().asFormUrlEncoded());
 
 	Ebean.deleteManyToManyAssociations(user, "roles");
 	user.saveManyToManyAssociations("roles");
 	user.update();
 
-
-	flash(PASSWORD_USER_CHANGED, Messages.get("pix.user.successful_change"));
+	flash(Application.FLASH_MESSAGE_KEY, Messages.get("pix.user.successful_change"));
 	return redirect(routes.Admin.editUser(user.id));
     }
 
@@ -101,6 +134,7 @@ public class Admin extends Controller {
 	final User user = User.find.byId(userId);
 
 	if (passwordForm.hasErrors()) {
+	    flash(Application.FLASH_ERROR_KEY, Messages.get("pix.user.add_edit_error"));
 	    return badRequest(edit_user.render(USER_FORM.fill(user), passwordForm, SecurityRole.findAllOrderByName(),
 		    user.roles));
 	}
@@ -108,7 +142,7 @@ public class Admin extends Controller {
 	final String newPassword = passwordForm.get().password;
 	user.changePassword(new MyUsernamePasswordAuthUser(newPassword), true);
 
-	flash(PASSWORD_USER_CHANGED, Messages.get("pix.user.password.successful_change"));
+	flash(Application.FLASH_MESSAGE_KEY, Messages.get("pix.user.password.successful_change"));
 	return redirect(routes.Admin.editUser(userId));
     }
 }

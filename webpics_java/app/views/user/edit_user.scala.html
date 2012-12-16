@@ -8,11 +8,43 @@
 
 	<div class="row">
 		<div class="span6">
-			@_userFormPartial(userForm, existingRoles, userRoles)
-		
+			@helper.form(action = routes.Admin.doEditUser, 'class -> "form-horizontal") {
+	
+				<fieldset>
+			        <legend>@Messages("pix.navigation.user.edit")</legend>
+			        	
+					@_userFormPartial(userForm, existingRoles, userRoles)
+				
+    			</fieldset>
+    			
+			    <br />
+			    
+			    <div class="actions">
+			        <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.save")">
+			    </div>
+			     
+			    <input type="hidden" name="id" id="id" value="@userForm("id").value" />
+			}		
 		</div>
+		
 		<div class="span6">
-			@_passwordPartial(passwordForm, userForm("id").value)
+			@helper.form(action = routes.Admin.doChangePassword, 'class -> "form-horizontal") {
+				<fieldset>
+					<legend>@Messages("pix.navigation.user.password_change")</legend>
+				
+					@_passwordPartial(passwordForm, userForm("id").value)
+					
+
+					<br />
+					
+					<div class="actions">
+					    <input type="submit" class="btn btn-primary" value="@Messages("pix.navigation.user.password_change.save")">
+					</div>
+					
+					<input type="hidden" name="user_id_for_password" id="user_id_for_password" value="@userForm("id").value" />
+				
+				</fieldset>
+			}
 		
 		</div>
 	</div>

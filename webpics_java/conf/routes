@@ -16,6 +16,7 @@ GET		/album/retrieve/file/		controllers.Album.getFile(albumId: Long, fileName: S
 
 GET		/admin/useroverview			controllers.Admin.userOverview
 GET		/admin/adduser				controllers.Admin.addUser
+POST	/admin/doadduser				controllers.Admin.doAddUser
 GET		/admin/edituser/:userId		controllers.Admin.editUser(userId: Long)
 POST	/admin/doedituser			controllers.Admin.doEditUser
 POST	/admin/dochangepassword		controllers.Admin.doChangePassword
@@ -31,8 +32,8 @@ POST    /login                      controllers.Application.doLogin
 GET     /logout                     com.feth.play.module.pa.controllers.Authenticate.logout
 #GET     /authenticate/:provider     com.feth.play.module.pa.controllers.Authenticate.authenticate(provider: String)
 
-GET     /signup                     controllers.Application.signup
-POST    /signup                     controllers.Application.doSignup
+#GET     /signup                     controllers.Application.signup
+#POST    /signup                     controllers.Application.doSignup
 
 #GET     /accounts/unverified        controllers.Signup.unverified
 #GET     /authenticate/:provider/denied     controllers.Signup.oAuthDenied(provider: String)

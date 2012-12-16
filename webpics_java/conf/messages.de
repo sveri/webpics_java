@@ -62,7 +62,8 @@ pix.user.password.helptext=Passwort muss mind. 6 Zeichen enthalten
 pix.user.password_repeat.helptext=Passwort nochmal eingeben
 pix.user.password.successful_change=Passwort erfolgreich geändert
 pix.user.successful_change=Benutzer erfolgreich geändert
-
+pix.user.successful_added=Benutzer erfolgreich hinzugefügt
+pix.user.add_edit_error=Bitte überprüfen Sie Ihre Angaben
 
 # -- General
 
