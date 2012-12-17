@@ -1,8 +1,6 @@
 @(nav: String = "")
 
 @import be.objectify.deadbolt.views.html._ 
-@import be.objectify.deadbolt.Deadbolt
-
 @import be.objectify.deadbolt.utils.TemplateUtils._
 
 <div class="navbar navbar-fixed-top">
@@ -17,7 +15,7 @@
 			<a class="brand" href="/">PIX</a>
 			  
 			<div class="btn-group pull-right">
-	          	@if(Deadbolt.viewRoleHolderPresent()) {
+	          	@roleHolderPresentOr {
 	          		@defining(Application.getLocalUser(session())) { user =>
 		            	<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 		              		<i class="icon-user"></i> @user.name
@@ -31,7 +29,7 @@
 			              	<li><a href="@com.feth.play.module.pa.controllers.routes.Authenticate.logout()"><i class="icon-off"></i> @Messages("playauthenticate.navigation.logout")</a></li>
 		            	</ul>
 	            	}
-          		} else {
+          		} {
             		<a href="@routes.Application.login()" class="btn btn-primary btn-mini @("disabled".when(nav == "login"))">@Messages("playauthenticate.navigation.login")</a>
           		}
 			</div>
