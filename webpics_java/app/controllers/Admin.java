@@ -17,6 +17,10 @@ import views.html.user.add_user;
 import views.html.user.edit_user;
 import views.html.user.user_overview;
 
+import be.objectify.deadbolt.actions.And;
+import be.objectify.deadbolt.actions.Restrict;
+import be.objectify.deadbolt.actions.Restrictions;
+
 import com.avaje.ebean.Ebean;
 
 public class Admin extends Controller {
@@ -32,7 +36,7 @@ public class Admin extends Controller {
 	public String repeatPassword;
 
 	public String validate() {
-	    if (this.password == null || !this.password.equals(this.repeatPassword)) {
+	    if ((password == null) || !password.equals(repeatPassword)) {
 		return Messages.get("playauthenticate.password.signup.error.passwords_not_same");
 	    }
 	    return null;
@@ -44,16 +48,13 @@ public class Admin extends Controller {
 
     public static final Form<PasswordForm> PASSWORD_FORM = form(PasswordForm.class);
 
-    public static Result userOverview() {
-	final List<User> users = User.find.order("name").findList();
-	return ok(user_overview.render(users));
-    }
-
+    @Restrict(Application.ADMIN_ROLE)
     public static Result addUser() {
 	return ok(add_user.render(USER_FORM, PASSWORD_FORM, SecurityRole.findAllOrderByName(),
 		new ArrayList<SecurityRole>()));
     }
 
+    @Restrict(Application.ADMIN_ROLE)
     public static Result doAddUser() {
 	final Form<User> userForm = USER_FORM.bindFromRequest();
 	final Form<PasswordForm> passwordForm = PASSWORD_FORM.bindFromRequest();
@@ -79,29 +80,26 @@ public class Admin extends Controller {
 	return redirect(routes.Admin.userOverview());
     }
 
-    /*
-     * retrieves the roles from the form which was sent with the request and
-     * adds it to the given user
-     */
-    private static void getRolesFromForm(final User user, final Map<String, String[]> formUrlEncoded) {
-	final Map<String, String[]> formEncoded = formUrlEncoded;
-	for (final String key : formEncoded.keySet()) {
-	    if (key.equals("userRole")) {
-		final String[] roles = formEncoded.get(key);
-		for (final String role : roles) {
-		    User.addRole(user, Long.parseLong(role));
-		}
-	    }
-	}
-    }
-
-    public static Result editUser(final Long userId) {
+    @Restrict(Application.ADMIN_ROLE)
+    public static Result doChangePassword() {
+	final Form<PasswordForm> passwordForm = PASSWORD_FORM.bindFromRequest();
+	final long userId = Long.parseLong(passwordForm.data().get("user_id_for_password"));
 	final User user = User.find.byId(userId);
-	final List<SecurityRole> userRoles = user.roles;
-	final Form<User> userForm = USER_FORM.fill(user);
-	return ok(edit_user.render(userForm, PASSWORD_FORM, SecurityRole.findAllOrderByName(), userRoles));
+
+	if (passwordForm.hasErrors()) {
+	    flash(Application.FLASH_ERROR_KEY, Messages.get("pix.user.add_edit_error"));
+	    return badRequest(edit_user.render(USER_FORM.fill(user), passwordForm, SecurityRole.findAllOrderByName(),
+		    user.roles));
+	}
+
+	final String newPassword = passwordForm.get().password;
+	user.changePassword(new MyUsernamePasswordAuthUser(newPassword), true);
+
+	flash(Application.FLASH_MESSAGE_KEY, Messages.get("pix.user.password.successful_change"));
+	return redirect(routes.Admin.editUser(userId));
     }
 
+    @Restrict(Application.ADMIN_ROLE)
     public static Result doEditUser() {
 	final Form<User> filledForm = USER_FORM.bindFromRequest();
 	if (filledForm.hasErrors()) {
@@ -128,21 +126,33 @@ public class Admin extends Controller {
 	return redirect(routes.Admin.editUser(user.id));
     }
 
-    public static Result doChangePassword() {
-	final Form<PasswordForm> passwordForm = PASSWORD_FORM.bindFromRequest();
-	final long userId = Long.parseLong(passwordForm.data().get("user_id_for_password"));
+    @Restrict(Application.ADMIN_ROLE)
+    public static Result editUser(final Long userId) {
 	final User user = User.find.byId(userId);
+	final List<SecurityRole> userRoles = user.roles;
+	final Form<User> userForm = USER_FORM.fill(user);
+	return ok(edit_user.render(userForm, PASSWORD_FORM, SecurityRole.findAllOrderByName(), userRoles));
+    }
 
-	if (passwordForm.hasErrors()) {
-	    flash(Application.FLASH_ERROR_KEY, Messages.get("pix.user.add_edit_error"));
-	    return badRequest(edit_user.render(USER_FORM.fill(user), passwordForm, SecurityRole.findAllOrderByName(),
-		    user.roles));
+    /*
+     * retrieves the roles from the form which was sent with the request and
+     * adds it to the given user
+     */
+    private static void getRolesFromForm(final User user, final Map<String, String[]> formUrlEncoded) {
+	final Map<String, String[]> formEncoded = formUrlEncoded;
+	for (final String key : formEncoded.keySet()) {
+	    if (key.equals("userRole")) {
+		final String[] roles = formEncoded.get(key);
+		for (final String role : roles) {
+		    User.addRole(user, Long.parseLong(role));
+		}
+	    }
 	}
+    }
 
-	final String newPassword = passwordForm.get().password;
-	user.changePassword(new MyUsernamePasswordAuthUser(newPassword), true);
-
-	flash(Application.FLASH_MESSAGE_KEY, Messages.get("pix.user.password.successful_change"));
-	return redirect(routes.Admin.editUser(userId));
+    @Restrict(Application.ADMIN_ROLE)
+    public static Result userOverview() {
+	final List<User> users = User.find.order("name").findList();
+	return ok(user_overview.render(users));
     }
 }

@@ -53,6 +53,11 @@ pix.albums.choose_album=Bitte wählen Sie auf der linken Seite ein Album aus.
 
 pix.album.album.upload.local_path_message=Oder geben Sie einen Pfad auf dem Server an auf den webpics Zugriff hat.
 pix.album.album.upload.textfield=Dateipfad
+pix.album.album.button.rotate_right.title=Bitte drücken Sie die "Pfeil nach oben" Taste um das Bild 90 Grad nach rechts zu drehen
+pix.album.album.button.rotate_left.title=Bitte drücken Sie die "Pfeil nach unten" Taste um das Bild 90 Grad nach links zu drehen 
+pix.album.album.button.rotate_left.text=Links drehen
+pix.album.album.button.rotate_right.text=Rechts drehen
+pix.album.album.button.fullscreen=Vollbild
 
 pix.user.lastlogin=Letzter Login
 pix.user.active=Aktiv

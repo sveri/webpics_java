@@ -23,13 +23,18 @@
     
     <div id="galleria-button-row" class="row">
     	<div class="span4">
-	    	<button id="rotate-left" class="btn btn-primary">Rotate left</button>
+	    	<button id="rotate-left" class="btn btn-primary" 
+	    		title="@Messages("pix.album.album.button.rotate_left.title")">
+    			@Messages("pix.album.album.button.rotate_right.text")</button>
     	</div>
     	<div class="span4">
-		    <button id="fullscreen" class="btn btn-primary">Fullscreen</button>
+		    <button id="fullscreen" class="btn btn-primary">
+		    	@Messages("pix.album.album.button.fullscreen")</button>
     	</div>
     	<div class="span4">
-	    	<button id="rotate-right" class="btn btn-primary">Rotate right</button>
+	    	<button id="rotate-right" class="btn btn-primary" 
+	    		title="@Messages("pix.album.album.button.rotate_right.title")">
+	    		@Messages("pix.album.album.button.rotate_right.text")</button>
     	</div>
     </div>
 }
